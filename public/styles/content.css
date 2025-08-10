@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  justify-content: flex-end;
+}
+body {
+  background-color: #fff5d7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffca2b' fill-opacity='0.32'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #212529;
+  padding: 10px;
+  height: 18%;
+  text-align: center;
+}
+.nav-link {
+  color: #ffc107 !important;
+}
+.border-bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bi-house-fill,
+.bi-database-fill-down {
+  fill: #ffc107;
+}
+.amount-container {
+  display: flex;
+  justify-content: center;
+}
+.amount-background {
+  margin-top: 3rem;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background-color: #212529;
+  border-color: #ffc107;
+  border-width: 0.2rem;
+  border-style: solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(73, 73, 73, 0.5);
+}
+.amount {
+  color: white;
+}
+.gap {
+  gap: 12rem;
+}
+.btn {
+  border-radius: 3px;
+  padding: 10px;
+}
+.btn-dark {
+  background-color: #212529;
+}
