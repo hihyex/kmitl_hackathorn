@@ -1,4 +1,9 @@
 var page = "mainPage";
+var id;
+var targetId;
+if (document.body.dataset.deviceId) {
+    id = document.body.dataset.deviceId;
+}
 function toggleFooter(page) {
     if (page === "mainPage"){
         console.log("main")
@@ -11,28 +16,23 @@ function toggleFooter(page) {
         $("#buffer-page-button").addClass("active");
     }
 }
-function getCookie(name) {
-  const cookies = document.cookie.split(";");
-  for (let cookie of cookies) {
-    let [key, value] = cookie.trim().split("=");
-    if (key === name) return decodeURIComponent(value);
-  }
-  return null;
-}
 function mainPage() {
-    const id = getCookie("device_id");
     window.location.href = `/mainpage/${id}`;
 }
 
 function bufferPage() {
-    const id = getCookie("device_id");
     window.location.href = `/buffer/${id}`;
 }
 function scan() {
-    const id = getCookie("device_id");
     window.location.href = `/scan/${id}`;
 }
 function transfer() {
-    const id = getCookie("device_id");
-    window.location.href = `/transfer/${id}`;
+    var target;
+    if (document.body.dataset.deviceId2) {
+        target = document.body.dataset.deviceId2;
+    }
+    window.location.href = `/transfer/${id}?target=${target}`;
+}
+function successPage() {
+    window.location.href = `sucess/${id}`
 }

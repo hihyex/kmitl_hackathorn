@@ -61,7 +61,16 @@ footer {
   width: 100%;
   height: 5rem;
   margin: 0px;
-  margin-top: 15rem
+  margin-top: 17rem
+}
+.transaction-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 700px;
+  margin: 5rem 10rem;
+  padding: 2rem;
 }
 .text-gray, .btn-gray {
   color: #afab9f !important;
@@ -80,6 +89,38 @@ footer {
   margin-left: 2rem;
 }
 .background {
-  background-color: #e1e1e1;
+  background-color: #fcfbfb;
   border-radius: 1rem;
+}
+.background-dark {
+  background-color: #212529
+}
+.btn:hover {
+  background-color: #ffe189;
+  transform: scale(0.95);
+}
+.btn:active {
+  background-color: #aa830d !important;
+  transform: scale(1.05);
+}
+.below-qr {
+    font-family: IBM Plex Sans Thai;
+    margin-top: 1.5rem;
+}
+.amount-frame, .note-frame{
+  width: 100%;
+}
+#amount, #note {
+  border-style: none;
+  width: 100%
+}
+#amount:focus, #note:focus {
+  outline: none;
+  border-style: none;
+}
+.horizontal {
+  border: 0.5px;
+  border-style: solid;
+  border-color: rgb(125, 125, 125);
+  width: 100%;
 }

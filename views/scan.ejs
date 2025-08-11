@@ -19,10 +19,18 @@
           </div>
       </div>
   </header>
-  <body>
+  <body data-device-id="<%=locals.id%>" data-device-id2="<%locals.target%>">
+    <% if (locals.message) { %>
+        <script src="/script.js" charset="utf-8"></script>
+        <script>
+            alert("<%=message %>")
+            mainPage()
+        </script>
 
+    <% } else { %>
         <div class="qr-container">
             <img src=<%=qrCodeImg%> alt="QR Code" width="360rem"/>
+            <div class="below-qr">qr-code นี้เป็นเพียงรูปภาพประกอบเท่านั้น</div>
             <div class="d-flex justify-content-between" style="width:100%">
                 <button class="btn btn-dark rounded-pill px-3 m-5" type="button" onclick="mainPage()">
                     <i class="bi bi-arrow-left-circle-fill "></i>
@@ -34,6 +42,7 @@
                 </button>  
             </div>
         </div>
+    <% } %>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
