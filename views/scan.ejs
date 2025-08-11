@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+      <link href="/styles/content.css" rel='stylesheet'>
+    <title>ศรีกรุุง</title>
+  </head>
+  <header class="p-3 text-bg-dark">
+          <div class="d-flex align-items-center justify-content-start justify-content-lg-start">
+              <span class="bank">ศรีกรุง</span>
+          </div>
+      </div>
+  </header>
+  <body>
+
+        <div class="qr-container">
+            <img src=<%=qrCodeImg%> alt="QR Code" width="360rem"/>
+            <div class="d-flex justify-content-between" style="width:100%">
+                <button class="btn btn-dark rounded-pill px-3 m-5" type="button" onclick="mainPage()">
+                    <i class="bi bi-arrow-left-circle-fill "></i>
+                    <span class="text-gray" style="margin-left: 7px; font-size: 0.95em">ย้อนกลับ</span>
+                </button>    
+                <button class="btn btn-dark rounded-pill px-3 m-5" type="button" onclick="transfer()">
+                    <span class="text-yellow" style="margin-left: 7px; font-size: 0.95em">ต่อไป</span>
+                    <i class="bi bi-arrow-right-circle-fill btn-yellow"></i>
+                </button>  
+            </div>
+        </div>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/script.js" charset="utf-8"></script>
+</body>
+  </body>
+</html>

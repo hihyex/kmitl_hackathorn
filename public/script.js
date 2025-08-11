@@ -1,4 +1,3 @@
-var id = 0; 
 var page = "mainPage";
 function toggleFooter(page) {
     if (page === "mainPage"){
@@ -12,10 +11,28 @@ function toggleFooter(page) {
         $("#buffer-page-button").addClass("active");
     }
 }
+function getCookie(name) {
+  const cookies = document.cookie.split(";");
+  for (let cookie of cookies) {
+    let [key, value] = cookie.trim().split("=");
+    if (key === name) return decodeURIComponent(value);
+  }
+  return null;
+}
 function mainPage() {
+    const id = getCookie("device_id");
     window.location.href = `/mainpage/${id}`;
 }
 
 function bufferPage() {
+    const id = getCookie("device_id");
     window.location.href = `/buffer/${id}`;
+}
+function scan() {
+    const id = getCookie("device_id");
+    window.location.href = `/scan/${id}`;
+}
+function transfer() {
+    const id = getCookie("device_id");
+    window.location.href = `/transfer/${id}`;
 }

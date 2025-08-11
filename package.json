@@ -12,6 +12,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
+    "qrcode": "^1.5.4"
   }
 }
