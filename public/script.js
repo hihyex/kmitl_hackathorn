@@ -34,10 +34,10 @@ function transfer(process) {
     window.location.href = `/transfer/${id}?target=${target}&process=${process}`;
 }
 function successPage() {
-    const target = $("#account").val();
+    const target = $("#myDropdown").val();
     const amount = $("#amount").val();
     const buffer = $("#flexSwitchCheck").prop("checked");
-    if (!account) {
+    if (!target) {
         alert("โปรดใส่บัญชีปลายทาง")
         return;
     }
@@ -47,7 +47,8 @@ function successPage() {
     }
     window.location.href = `/success/${id}?target=${target}&amount=${amount}&buffer=${buffer}`;
 }
-function bufferState(whiteList, process, amount){
+function bufferState(whiteList, process, amount, cfr){
+    if (cfr) return "open"
     if (whiteList){
         return "close"
     }

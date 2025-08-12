@@ -117,12 +117,12 @@ footer {
 .amount-frame, .note-frame, .account-frame{
   width: 100%;
 }
-#amount, #note, #account {
+#amount, #note, #account, #myDropdown {
   border-style: none;
   width: 100%;
   background-color: #fcfbfb
 }
-#amount:focus, #note:focus, #account:focus {
+#amount:focus, #note:focus, #account:focus, #myDropdown:focus {
   outline: none;
   border-style: none;
 }
@@ -138,4 +138,7 @@ footer {
 }
 .mb-135{
   margin-bottom: 170px;
+}
+#myDropdown{
+  margin: 5px;
 }

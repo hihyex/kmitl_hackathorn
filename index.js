@@ -1,4 +1,3 @@
-import e from "express";
 import express from "express";
 import QRCode from "qrcode";
 
@@ -10,28 +9,31 @@ app.set("view engine", "ejs");
 var account = [];
 var whiteList = [];
 var lastId = 1;
-var buf = 0;
+var buf = 1;
+var idList = []
 setInterval(() => {
-  const now = new Date().toISOString();
+  const now = new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" });
   for(var i=0; i<account.length; i++){
     const self = account[i];
     for(var j=0; j<self.buffer.length; j++){
+      var b = Number(self.buffer[j].amount);
       if (now >= self.buffer[j].due){
-        if (self.buffer[j].next === "abort"){
-            self.buffer[j].status = "abort";
-          if (self.buffer[j].type === "in"){
-            self.bufferAmount -= self.buffer[j].amount;
-          }
-          else {
-            self.amount += self.buffer[j].amount;
-          }
-          continue;
-        }
         if (self.buffer[j].status == "pending"){
-          self.buffer[j].status = "success";
-          if (self.buffer[j].type == "in"){
-            self.bufferAmount -= self.buffer[j].amount;
-            self.amount += self.buffer[j].amount;
+          if (self.buffer[j].next === "abort"){
+              self.buffer[j].status = "abort";
+            if (self.buffer[j].type === "in"){
+              self.bufferAmount -= b;
+            }
+            else {
+              self.amount += b;
+            }
+          }
+          else{
+            self.buffer[j].status = "success";
+            if (self.buffer[j].type == "in"){
+              self.bufferAmount -= b;
+              self.amount += b;
+            }
           }
         }
       }
@@ -39,68 +41,20 @@ setInterval(() => {
   }
 }, 500);
 app.get("/", (req, res) => {
-  const cfr = lastId % 3 === 0 ? true : false;
+  const cfr = (lastId % 3 === 0);
   const now = new Date();
   now.setTime(now.getTime() + 10 * 1000);
   const newAccount = {
     id: lastId,
     amount: 1000000,
-    bufferAmount: 500,
-    buffer: [
-      {
-        type: "out",
-        amount: 300,
-        to: 0,
-        time: new Date().toISOString(),
-        due: now.toISOString(),
-        status: "pending",
-      },
-      {
-        type: "in",
-        amount: 500,
-        from: 0,
-        time: new Date().toISOString(),
-        due: now.toISOString(),
-        status: "pending",
-      },
-      {
-        type: "in",
-        amount: 500,
-        from: 0,
-        time: new Date().toISOString(),
-        due: now.toISOString(),
-        status: "abort",
-      },
-      {
-        type: "out",
-        amount: 300,
-        to: 0,
-        time: new Date().toISOString(),
-        due: now.toISOString(),
-        status: "success",
-      },
-      {
-        type: "out",
-        amount: 300,
-        to: 0,
-        time: new Date().toISOString(),
-        due: now.toISOString(),
-        status: "pending",
-      },
-      {
-        type: "out",
-        amount: 300,
-        to: 0,
-        time: new Date().toISOString(),
-        due: now.toISOString(),
-        status: "success",
-      },
-    ],
+    bufferAmount: 0,
+    buffer: [],
     cfr: cfr,
   };
   if (lastId % 3 === 1){
     whiteList.push(lastId)
   }
+  idList.push(lastId);
   account.push(newAccount);
   res.render("logging.ejs", {
     content: newAccount,
@@ -126,7 +80,7 @@ app.get("/scan/:id", async (req, res) => {
   const { id } = req.params;
   if (account.length > 1) {
     var target = Math.floor(Math.random() * account.length) + 1;
-    while (targetIndex == id) {
+    while (target == id) {
       target = Math.floor(Math.random() * account.length) + 1;
     }
     try {
@@ -159,20 +113,26 @@ app.get("/transfer/:id", (req, res) => {
   const { id } = req.params;
   const { target } = req.query;
   const { process } = req.query;
+  var cfr = false;
+  if (account[target - 1]){
+    cfr = account[target - 1].cfr;
+  }
   res.render("transfer.ejs", {
     content: account[id - 1],
+    cfr: cfr,
     target: target,
     id: id,
     whiteList: whiteList.includes(target),
-    process: process
+    process: process,
+    idList: idList
   });
 });
 app.get("/success/:id", (req, res) => {
   const { id } = req.params;
   const { target } = req.query;
-  const { amount } = req.query;
   const { buffer } = req.query;
-  if (!buffer) {
+  const  amount  = Number(req.query.amount);
+  if (buffer === "false") {
     account[id - 1].amount -= amount;
     account[target - 1] .amount += amount
   }
@@ -181,28 +141,26 @@ app.get("/success/:id", (req, res) => {
     now.setTime(now.getTime() + 10 * 1000);
     account[id - 1].amount -= amount;
     account[target - 1].bufferAmount += amount;
-    var next;
-    if (buf % 5 === 0) next = "abort"
-    else next = "success"
+    var next = (buf % 5 === 0) ? "abort" : "success";
     account[id - 1].buffer.push({
       type: "out",
       amount: amount,
       to: target,
-      time: new Date().toISOString(),
-      due: now.toISOString(),
+      time: new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+      due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
       status: "pending",
       next: next
-    })
+    });
     buf++;
     account[target - 1].buffer.push({
       type: "in",
       amount: amount,
       from: id,
-      time: new Date().toISOString(),
-      due: now.toISOString(),
+      time: new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+      due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
       status: "pending",
       next: next
-    })
+    });
   }
   res.render("success.ejs", {
     content: account[id - 1],

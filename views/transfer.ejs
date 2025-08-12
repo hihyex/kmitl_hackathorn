@@ -23,9 +23,13 @@
             <div><%=id%></div><hr class="horizontal"/>
             <div class="my-2 text-12">ถึงบัญชี:</div>
             <% if (locals.target == "undefined"){ %>
-                <div class="account-frame"><input id="account" placeholder="เลขบัญชีปลายทาง" oninput="updateBufferState()"/></div>
-            <% } else{ %>
-                <div class="account-frame"><input id="account" value="<%=target%>" disabled/></div>
+                <select id="myDropdown">
+                    <option value="0" selected disabled>-- เลขบัญชีปลายทาง --</option>
+                </select>
+                <% } else{ %>
+                <select id="myDropdown" disabled>
+                    <option value="<%=target%>" selected disabled><%=target%></option>
+                </select>
             <% } %>
             <hr class="horizontal"/>
             <div class="my-2 text-12">จำนวนเงิน:</div>
@@ -43,16 +47,26 @@
         </div>
     </div>
           <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-        crossorigin="anonymous">
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+          crossorigin="anonymous">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/script.js" charset="utf-8"></script>
     <script>
+        const dropdown = document.getElementById("myDropdown");
+        var idList = <%- JSON.stringify(idList) %>;
+        for (var i=0; i<idList.length; i++){
+            if (idList[i] === <%=id%>) continue;
+            const option = document.createElement("option")
+            option.value = idList[i]
+            option.textContent = idList[i]
+            dropdown.appendChild(option);
+        }
         function updateBufferState(){
             var amount = Number($("#amount").val());
-            var state = bufferState(<%=whiteList%>, "<%=process%>", amount);
+            console.log("<%=locals.cfr%>")
+            var state = bufferState(<%=whiteList%>, "<%=process%>", amount, <%=locals.cfr%>);
             if (state === "open"){
                 $("#flexSwitchCheck").prop("checked", true).prop("disabled", true)
             }
