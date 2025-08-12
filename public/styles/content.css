@@ -142,3 +142,6 @@ footer {
 #myDropdown{
   margin: 5px;
 }
+.disable {
+  pointer-events: none;
+}

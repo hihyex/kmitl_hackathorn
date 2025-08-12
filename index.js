@@ -10,7 +10,7 @@ var account = [];
 var whiteList = [];
 var lastId = 1;
 var buf = 1;
-var idList = []
+var usernameList = []
 setInterval(() => {
   const now = new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" });
   for(var i=0; i<account.length; i++){
@@ -40,28 +40,40 @@ setInterval(() => {
     }
   }
 }, 500);
+
 app.get("/", (req, res) => {
-  const cfr = (lastId % 3 === 0);
-  const now = new Date();
-  now.setTime(now.getTime() + 10 * 1000);
-  const newAccount = {
-    id: lastId,
-    amount: 1000000,
-    bufferAmount: 0,
-    buffer: [],
-    cfr: cfr,
-  };
-  if (lastId % 3 === 1){
-    whiteList.push(lastId)
-  }
-  idList.push(lastId);
-  account.push(newAccount);
-  res.render("logging.ejs", {
-    content: newAccount,
-    id: lastId,
-  });
-  lastId++;
+  res.render("logging.ejs");
 });
+app.post("/mainpage", (req, res) => {
+  const username = req.body.username;
+  var index = usernameList.findIndex((item) => item === username)
+  if (index === -1){
+    const cfr = (lastId % 3 === 0);
+    const now = new Date();
+    now.setTime(now.getTime() + 10 * 1000);
+    const newAccount = {
+      id: lastId,
+      amount: 1000000,
+      bufferAmount: 0,
+      buffer: [],
+      cfr: cfr,
+      username: username
+    };
+    if (lastId % 3 === 1){
+      whiteList.push(lastId)
+    }
+    usernameList.push(username);
+    account.push(newAccount);
+    index = lastId - 1
+  }
+  res.render("index.ejs", {
+    content: account[index],
+    id: index + 1,
+    username: username
+  });
+
+  lastId++;
+})
 app.get("/mainpage/:id", (req, res) => {
   const { id } = req.params;
   res.render("index.ejs", {
@@ -117,14 +129,17 @@ app.get("/transfer/:id", (req, res) => {
   if (account[target - 1]){
     cfr = account[target - 1].cfr;
   }
+  var targetName = "";
+  if (!isNaN(target)) targetName = account[target - 1].username;
   res.render("transfer.ejs", {
     content: account[id - 1],
     cfr: cfr,
     target: target,
+    targetName: targetName,
     id: id,
     whiteList: whiteList.includes(target),
     process: process,
-    idList: idList
+    usernameList: usernameList,
   });
 });
 app.get("/success/:id", (req, res) => {
