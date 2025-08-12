@@ -1,3 +1,4 @@
+import e from "express";
 import express from "express";
 import QRCode from "qrcode";
 
@@ -14,10 +15,12 @@ setInterval(() => {
   for(var i=0; i<account.length; i++){
     const self = account[i];
     for(var j=0; j<self.buffer.length; j++){
-      if (now > self.buffer[i].due){
-        self.buffer[i].status = "success";
-        self.bufferAmount -= self.buffer[i].amount;
-        self.amount += self.buffer[i].amount;
+      if (now >= self.buffer[j].due && self.buffer[j].status == "pending"){
+        self.buffer[j].status = "success";
+        if (self.buffer[j].type == "in"){
+          self.bufferAmount -= self.buffer[j].amount;
+          self.amount += self.buffer[j].amount;
+        }
       }
     }
   }
@@ -142,10 +145,13 @@ app.get("/scan/:id", async (req, res) => {
 app.get("/transfer/:id", (req, res) => {
   const { id } = req.params;
   const { target } = req.query;
+  const { process } = req.query;
   res.render("transfer.ejs", {
     content: account[id - 1],
     target: target,
     id: id,
+    whiteList: whiteList.includes(target),
+    process: process
   });
 });
 app.get("/success/:id", (req, res) => {

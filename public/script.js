@@ -26,12 +26,12 @@ function bufferPage() {
 function scan() {
     window.location.href = `/scan/${id}`;
 }
-function transfer() {
+function transfer(process) {
     var target;
     if (document.body.dataset.deviceId2) {
         target = document.body.dataset.deviceId2;
     }
-    window.location.href = `/transfer/${id}?target=${target}`;
+    window.location.href = `/transfer/${id}?target=${target}&process=${process}`;
 }
 function successPage() {
     const target = $("#account").val();
@@ -45,7 +45,26 @@ function successPage() {
         alert("โปรดใส่จำนวนเงิน")
         return;
     }
-    console.log(account, amount, buffer)
-
     window.location.href = `/success/${id}?target=${target}&amount=${amount}&buffer=${buffer}`;
+}
+function bufferState(whiteList, process, amount){
+    if (whiteList){
+        return "close"
+    }
+    if (process === "scan"){
+        if (amount >= 50000){
+            return "depend"
+        }
+        else {
+            return "close"
+        }
+    }
+    else{
+        if (amount >= 50000){
+            return "open"
+        }
+        else{
+            return "depend"
+        }
+    }
 }
