@@ -12,8 +12,7 @@ footer {
   left: 0;
   width: 100%;
   background-color: #212529;
-  padding: 10px;
-  height: 18%;
+  padding-top: 10px;
   text-align: center;
 }
 .border-bottom {
@@ -21,6 +20,14 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.item {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+
 }
 .amount-container {
   display: flex;
@@ -107,14 +114,15 @@ footer {
     font-family: IBM Plex Sans Thai;
     margin-top: 1.5rem;
 }
-.amount-frame, .note-frame{
+.amount-frame, .note-frame, .account-frame{
   width: 100%;
 }
-#amount, #note {
+#amount, #note, #account {
   border-style: none;
-  width: 100%
+  width: 100%;
+  background-color: #fcfbfb
 }
-#amount:focus, #note:focus {
+#amount:focus, #note:focus, #account:focus {
   outline: none;
   border-style: none;
 }
@@ -123,4 +131,11 @@ footer {
   border-style: solid;
   border-color: rgb(125, 125, 125);
   width: 100%;
+  margin-top: 0px;
+}
+.text-16{
+  font-size: 16px;
+}
+.mb-135{
+  margin-bottom: 170px;
 }

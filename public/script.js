@@ -34,5 +34,18 @@ function transfer() {
     window.location.href = `/transfer/${id}?target=${target}`;
 }
 function successPage() {
-    window.location.href = `sucess/${id}`
+    const target = $("#account").val();
+    const amount = $("#amount").val();
+    const buffer = $("#flexSwitchCheck").prop("checked");
+    if (!account) {
+        alert("โปรดใส่บัญชีปลายทาง")
+        return;
+    }
+    if (!amount) {
+        alert("โปรดใส่จำนวนเงิน")
+        return;
+    }
+    console.log(account, amount, buffer)
+
+    window.location.href = `/success/${id}?target=${target}&amount=${amount}&buffer=${buffer}`;
 }
