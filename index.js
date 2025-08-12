@@ -10,16 +10,29 @@ app.set("view engine", "ejs");
 var account = [];
 var whiteList = [];
 var lastId = 1;
+var buf = 0;
 setInterval(() => {
   const now = new Date().toISOString();
   for(var i=0; i<account.length; i++){
     const self = account[i];
     for(var j=0; j<self.buffer.length; j++){
-      if (now >= self.buffer[j].due && self.buffer[j].status == "pending"){
-        self.buffer[j].status = "success";
-        if (self.buffer[j].type == "in"){
-          self.bufferAmount -= self.buffer[j].amount;
-          self.amount += self.buffer[j].amount;
+      if (now >= self.buffer[j].due){
+        if (self.buffer[j].next === "abort"){
+            self.buffer[j].status = "abort";
+          if (self.buffer[j].type === "in"){
+            self.bufferAmount -= self.buffer[j].amount;
+          }
+          else {
+            self.amount += self.buffer[j].amount;
+          }
+          continue;
+        }
+        if (self.buffer[j].status == "pending"){
+          self.buffer[j].status = "success";
+          if (self.buffer[j].type == "in"){
+            self.bufferAmount -= self.buffer[j].amount;
+            self.amount += self.buffer[j].amount;
+          }
         }
       }
     }
@@ -168,21 +181,27 @@ app.get("/success/:id", (req, res) => {
     now.setTime(now.getTime() + 10 * 1000);
     account[id - 1].amount -= amount;
     account[target - 1].bufferAmount += amount;
+    var next;
+    if (buf % 5 === 0) next = "abort"
+    else next = "success"
     account[id - 1].buffer.push({
       type: "out",
       amount: amount,
       to: target,
       time: new Date().toISOString(),
       due: now.toISOString(),
-      status: "pending"
+      status: "pending",
+      next: next
     })
+    buf++;
     account[target - 1].buffer.push({
       type: "in",
       amount: amount,
       from: id,
       time: new Date().toISOString(),
       due: now.toISOString(),
-      status: "pending"
+      status: "pending",
+      next: next
     })
   }
   res.render("success.ejs", {
