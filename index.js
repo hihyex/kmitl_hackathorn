@@ -9,6 +9,19 @@ app.use(express.urlencoded({ extended: true }));
 var account = [];
 var whiteList = [];
 var lastId = 1;
+setInterval(() => {
+  const now = new Date().toISOString();
+  for(var i=0; i<account.length; i++){
+    const self = account[i];
+    for(var j=0; j<self.buffer.length; j++){
+      if (now > self.buffer[i].due){
+        self.buffer[i].status = "success";
+        self.bufferAmount -= self.buffer[i].amount;
+        self.amount += self.buffer[i].amount;
+      }
+    }
+  }
+}, 500);
 app.get("/", (req, res) => {
   const cfr = lastId % 3 === 0 ? true : false;
   const now = new Date();
