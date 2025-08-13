@@ -6,11 +6,32 @@ const port = process.env.PORT || 3000;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs"); 
-var account = [];
+var account = [{
+  id: 1,
+  amount: 1000000,
+  bufferAmount: 0,
+  buffer: [],
+  cfr: false,
+  username: "Admin"
+}];
+      const monthShortTH = {
+        1: "ม.ค.",
+        2: "ก.พ.",
+        3: "มี.ค.",
+        4: "เม.ย.",
+        5: "พ.ค.",
+        6: "มิ.ย.",
+        7: "ก.ค.",
+        8: "ส.ค.",
+        9: "ก.ย.",
+        10: "ต.ค.",
+        11: "พ.ย.",
+        12: "ธ.ค.",
+      };
 var whiteList = [];
-var lastId = 1;
+var lastId = 2;
 var buf = 1;
-var usernameList = []
+var usernameList = ["Admin"];
 setInterval(() => {
   const now = new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" });
   for(var i=0; i<account.length; i++){
@@ -48,18 +69,85 @@ app.post("/mainpage", (req, res) => {
   const username = req.body.username;
   var index = usernameList.findIndex((item) => item === username)
   if (index === -1){
-    const cfr = (lastId % 3 === 0);
+    const cfr = (lastId % 3 === 1);
     const now = new Date();
     now.setTime(now.getTime() + 10 * 1000);
     const newAccount = {
       id: lastId,
       amount: 1000000,
       bufferAmount: 0,
-      buffer: [],
+      buffer: [
+        {
+          type: "out",
+          amount: 300,
+          to: 0,
+          time: new Date().toLocaleString("th-TH", {
+            timeZone: "Asia/Bangkok",
+          }),
+          due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+          status: "pending",
+          next: "success",
+        },
+        {
+          type: "in",
+          amount: 500,
+          from: 0,
+          time: new Date().toLocaleString("th-TH", {
+            timeZone: "Asia/Bangkok",
+          }),
+          due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+          status: "pending",
+          next: "success",
+        },
+        {
+          type: "in",
+          amount: 500,
+          from: 0,
+          time: new Date().toLocaleString("th-TH", {
+            timeZone: "Asia/Bangkok",
+          }),
+          due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+          status: "abort",
+          next: "success",
+        },
+        {
+          type: "out",
+          amount: 300,
+          to: 0,
+          time: new Date().toLocaleString("th-TH", {
+            timeZone: "Asia/Bangkok",
+          }),
+          due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+          status: "success",
+          next: "success",
+        },
+        {
+          type: "out",
+          amount: 300,
+          to: 0,
+          time: new Date().toLocaleString("th-TH", {
+            timeZone: "Asia/Bangkok",
+          }),
+          due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+          status: "pending",
+          next: "success",
+        },
+        {
+          type: "out",
+          amount: 300,
+          to: 0,
+          time: new Date().toLocaleString("th-TH", {
+            timeZone: "Asia/Bangkok",
+          }),
+          due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+          status: "success",
+          next: "success",
+        },
+      ],
       cfr: cfr,
-      username: username
+      username: username,
     };
-    if (lastId % 3 === 1){
+    if (lastId % 3 === 2){
       whiteList.push(lastId)
     }
     usernameList.push(username);

@@ -34,49 +34,83 @@
     <div class="d-flex justify-content-center mb-135">
       <div class="mt-3 p-3 bg-body rounded shadow-sm w-50 mb-135">
         <h6 class="border-bottom pb-2 mb-0">รายการ</h6>
-        <% for (var i=0; i<content.buffer.length; i++) { %>
-        <div class="d-flex text-body-secondary pt-3 px-3">
-          <div class="pb-3 mb-0 small lh-sm border-bottom item w-100 ">
-            <div class="d-flex justify-content-start">
+        <% for (var i=content.buffer.length-1; i>=0; i--) { %>
+          <div class="d-flex flex-column text-body-secondary pt-3 px-3 small lh-sm border-bottom">
+            <div class="d-flex pb-1 mb-0 item w-100 ">
               <% if (content.buffer[i].type === "in"){ %>
-                <strong class="text-success text-16">+<%=content.buffer[i].amount%> บาท</strong>
-                <%} else { %>
-                  <strong class="text-warning text-16">- <%=content.buffer[i].amount%> บาท</strong>
-                  <% } %>
-                </div>
+                <div class=" text-16">เงินเข้า</div>
                 <% if (content.buffer[i].status === "pending") {  %>
+                  <svg xmlns="http://www.w3.org/2000/svg" 
+                    width="15" 
+                    height="15" 
+                    fill="currentColor" 
+                    class="bi bi-alarm-fill" 
+                    color="#212529"
+                    viewBox="0 0 16 16">
+                    <path d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l.601.602a.5.5 0 0 1-.707.708l-.746-.746A6.97 6.97 0 0 1 8 16a6.97 6.97 0 0 1-3.422-.892l-.746.746a.5.5 0 0 1-.707-.708l.602-.602A7.001 7.001 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5m2.5 5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9zM.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.04 8.04 0 0 0 .86 5.387M11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.04 8.04 0 0 0-3.527-3.527"/>
+                  </svg>
+                  <% } else if (content.buffer[i].status === "abort"){%>
+                  <svg xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    fill="currentColor" 
+                    class="bi bi-x-circle-fill" 
+                    color="#E62F07"
+                    viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                  </svg>
+                  <% } else { %>
+                  <svg xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    fill="currentColor" 
+                    class="bi bi-check-circle-fill" 
+                    color="#36E549"
+                    viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                  </svg>
+                  <% } %>
+                <strong class="text-success text-16 d-block ms-auto">+<%=content.buffer[i].amount%> บาท</strong>
+              <%} else { %>
+                <div class=" text-16">เงินออก</div>
+              <% if (content.buffer[i].status === "pending") {  %>
                 <svg xmlns="http://www.w3.org/2000/svg" 
-                  width="15" 
-                  height="15" 
-                  fill="currentColor" 
-                  class="bi bi-alarm-fill" 
-                  color="#212529"
-                  viewBox="0 0 16 16">
-                  <path d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l.601.602a.5.5 0 0 1-.707.708l-.746-.746A6.97 6.97 0 0 1 8 16a6.97 6.97 0 0 1-3.422-.892l-.746.746a.5.5 0 0 1-.707-.708l.602-.602A7.001 7.001 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5m2.5 5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9zM.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.04 8.04 0 0 0 .86 5.387M11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.04 8.04 0 0 0-3.527-3.527"/>
-                </svg>
+                width="15" 
+                height="15" 
+                fill="currentColor" 
+                class="bi bi-alarm-fill" 
+                color="#212529"
+                viewBox="0 0 16 16">
+                <path d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l.601.602a.5.5 0 0 1-.707.708l-.746-.746A6.97 6.97 0 0 1 8 16a6.97 6.97 0 0 1-3.422-.892l-.746.746a.5.5 0 0 1-.707-.708l.602-.602A7.001 7.001 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5m2.5 5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9zM.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.04 8.04 0 0 0 .86 5.387M11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.04 8.04 0 0 0-3.527-3.527"/>
+              </svg>
                 <% } else if (content.buffer[i].status === "abort"){%>
                 <svg xmlns="http://www.w3.org/2000/svg" 
-                  width="16" 
-                  height="16" 
-                  fill="currentColor" 
-                  class="bi bi-x-circle-fill" 
-                  color="#E62F07"
-                  viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-                </svg>
+                width="16" 
+                height="16" 
+                fill="currentColor" 
+                class="bi bi-x-circle-fill" 
+                color="#E62F07"
+                viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+              </svg>
                 <% } else { %>
                 <svg xmlns="http://www.w3.org/2000/svg" 
-                  width="16" 
-                  height="16" 
-                  fill="currentColor" 
-                  class="bi bi-check-circle-fill" 
-                  color="#36E549"
-                  viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                </svg>
+                width="16" 
+                height="16" 
+                fill="currentColor" 
+                class="bi bi-check-circle-fill" 
+                color="#36E549"
+                viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
                 <% } %>
-            <span class="d-block ms-auto"><%=content.buffer[i].time.split(" ")[1].slice(0, 5)%></span>
-          </div>
+                  <strong class="text-warning text-16 d-block ms-auto">- <%=content.buffer[i].amount%> บาท</strong>
+              <% } %>
+            </div>
+            <div class="d-flex pb-1 mb-2 item w-100 ">
+              <span class="fullDate"><%=content.buffer[i].time.split(" ")[0]%></span> 
+              <span class="d-block ms-auto text-12"><%=content.buffer[i].time.split(" ")[1].slice(0, 5)%></span>
+            </div>
         </div>
         <% } %>
         <small class="d-block text-end mt-3">
@@ -88,27 +122,27 @@
       <ul class="nav justify-content-around pb-3">
         <li class="nav-item">
           <button
-            type="button"
-            onclick="mainPage()"
-            class="nav-link px-2 text-body-secondary btn-gray"
-            id="main-page-button"
+          type="button"
+          onclick="mainPage()"
+          class="nav-link px-2 text-body-secondary btn-gray"
+          id="main-page-button"
           >
             <div>
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-house-fill btn-gray"
-                viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-house-fill btn-gray"
+              viewBox="0 0 16 16"
               >
-                <path
-                  d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"
-                />
-                <path
-                  d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"
-                />
-              </svg>
+              <path
+              d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"
+              />
+              <path
+              d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"
+              />
+            </svg>
             </div>
             หน้าหลัก
           </button>
@@ -116,10 +150,10 @@
         <hr />
         <li class="nav-item">
           <button
-            type="button"
-            onclick="bufferPage()"
-            class="nav-link px-2 text-body-secondary active"
-            id="buffer-page-button"
+          type="button"
+          onclick="bufferPage()"
+          class="nav-link px-2 text-body-secondary active"
+          id="buffer-page-button"
           >
             <div>
               <svg
@@ -150,8 +184,5 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/script.js" charset="utf-8"></script>
-    <scipt charset="utf-8">
-      
-    </scipt>
   </body>
 </html>
