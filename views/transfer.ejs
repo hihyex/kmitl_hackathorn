@@ -33,7 +33,7 @@
             <% } %>
             <hr class="horizontal"/>
             <div class="my-2 text-12">จำนวนเงิน:</div>
-            <div class="amount-frame"><input id="amount" type="number" placeholder="บาท" oninput="updateBufferState()"/></div><hr class="horizontal"/>
+            <div class="amount-frame"><input id="amount" type="text" placeholder="บาท" min='1' oninput="updateBufferState()" autocomplete="off"/></div><hr class="horizontal"/>
             <div>บันทึกช่วยจำ</div>
             <div class="note-frame"><input id="note" placeholder="เติมข้อความที่นี่"/></div><hr class="horizontal"/>
             <div class="form-switch d-flex justify-content-start my-2"style="gap: 60px; padding: 0px">

@@ -21,19 +21,32 @@ function transfer(process) {
     }
     window.location.href = `/transfer/${id}?target=${target}&process=${process}`;
 }
-function successPage() {
-    const target = $("#myDropdown").val();
-    const amount = $("#amount").val();
-    const buffer = $("#flexSwitchCheck").prop("checked");
-    if (!target) {
-        alert("โปรดใส่บัญชีปลายทาง")
-        return;
-    }
-    if (!amount) {
-        alert("โปรดใส่จำนวนเงิน")
-        return;
-    }
-    window.location.href = `/success/${id}?target=${target}&amount=${amount}&buffer=${buffer}`;
+async function successPage() {
+ var data;
+ var amount = $("#amount").val();
+ const target = $("#myDropdown").val();
+ const buffer = $("#flexSwitchCheck").prop("checked");
+ amount = Number(amount)
+ if (!target) {
+   alert("โปรดใส่บัญชีปลายทาง");
+   return;
+ }
+ if (isNaN(amount) || amount <= 0){
+    alert("โปรดกรอกจำนวนเงิน")
+    return;
+ }
+  try {
+    var response = await fetch(`/amount/${id}`);
+    if (!response.ok) throw new Error("network error");
+    data = await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+  if (Number(amount) > Number(data.amount)){
+      alert("เงินของคุณไม่เพียงพอ")
+      return;
+  }
+  window.location.href = `/success/${id}?target=${target}&amount=${amount}&buffer=${buffer}`;
 }
 function bufferState(whiteList, process, amount, cfr){
     if (cfr) return "open"
@@ -56,4 +69,7 @@ function bufferState(whiteList, process, amount, cfr){
             return "depend"
         }
     }
+}
+function bufferDetail(index){
+    window.location.href = `/buffer/${id}/${index}`;
 }

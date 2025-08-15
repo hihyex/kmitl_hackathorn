@@ -14,25 +14,20 @@
     <title>ศรีกรุง</title>
   </head>
   <body class="background-dark" data-device-id="<%=locals.id%>">
-    <!-- <div class="d-flex justify-content-center align-items-center vh-100">
-      <button class="btn btn-warning px-5" type="button" onclick="mainPage()">
-        เข้าสู่ระบบ
-      </button>
-    </div> -->
     <main class="d-flex justify-content-center align-items-center vh-100">
       <form action="/mainpage" method="POST">
         <div class="form-floating my-3">
           <input
-            type="number"
             class="form-control"
             id="floatingInput"
             placeholder="เลขบัญชี"
             name="username"
+            autocomplete="off"
             required
           />
           <label for="floatingInput">เลขบัญชี</label>
         </div>
-        <button class="btn btn-warning w-100 py-2" type="submit">Sign in</button>
+        <button class="btn btn-warning w-100 py-2" type="submit">เข้าสู่ระบบ</button>
       </form>
     </main>
     <script src="/script.js" charset="utf-8"></script>

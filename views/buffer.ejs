@@ -18,24 +18,26 @@
     <link href="/styles/content.css" rel="stylesheet" />
     <title>ศรีกรุง</title>
   </head>
-  <header class="p-3 text-bg-dark">
-    <div
-      class="d-flex align-items-center justify-content-start justify-content-lg-start"
-    >
-      <span class="bank">ศรีกรุง</span>
+<header class="p-3 text-bg-dark pb-0">
+  <div>
+    <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
+        <span class="bank">ศรีกรุง</span>
     </div>
-  </header>
+    <span class="account-number">เลขบัญชี: <%=locals.id %></span>
+  </div>
+  </div>
+</header>
   <body id="buffer-page" data-device-id="<%=locals.id%>">
     <div class="amount-container">
       <div class="amount-background">
         <div class="amount"><%=content.bufferAmount%></div>
       </div>
     </div>
-    <div class="d-flex justify-content-center mb-135">
+    <div class="d-flex justify-content-center mb-50">
       <div class="mt-3 p-3 bg-body rounded shadow-sm w-50 mb-135">
         <h6 class="border-bottom pb-2 mb-0">รายการ</h6>
         <% for (var i=content.buffer.length-1; i>=0; i--) { %>
-          <div class="d-flex flex-column text-body-secondary pt-3 px-3 small lh-sm border-bottom">
+          <div id="buffer-item"class="d-flex flex-column text-body-secondary pt-3 px-3 small lh-sm border-bottom" role="button" onclick="bufferDetail('<%=i%>')">
             <div class="d-flex pb-1 mb-0 item w-100 ">
               <% if (content.buffer[i].type === "in"){ %>
                 <div class=" text-16">เงินเข้า</div>
