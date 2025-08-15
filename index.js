@@ -76,8 +76,7 @@ app.post("/mainpage", (req, res) => {
   }
   res.render("index.ejs", {
     content: account[index],
-    id: index + 1,
-    username: username
+    id: index + 1
   });
 
   lastId++;
@@ -92,7 +91,7 @@ app.get("/mainpage/:id", (req, res) => {
 app.get("/buffer/:id", (req, res) => {
   const { id } = req.params;
   res.render("buffer.ejs", {
-    content: account[id-1],
+    content: account[id - 1],
     id: id
   });
 });

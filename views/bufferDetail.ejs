@@ -27,20 +27,20 @@
     <div class="d-flex justify-content-center mb-50 mt-4">
     <div class="col-md-7 col-lg-8 mx-5 my-5 mt-3 p-0 bg-body rounded shadow-sm w-50 mb-135">
         <%if (content.buffer[index].type === "in"){%>
-            <h4 class="mb-3 font text-success text-bg-dark py-3 fw-bold text-center">เงินเข้า</h4>
+            <h4 class="mb-3 font text-success little-dark py-3 fw-bold text-center">เงินเข้า</h4>
             <h6 class="mt-4-5 mb-3 me-4 ms-5 font"><span class="fw-bold">จากบัญชี:</span> <%=content.username%></h6>
             <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">จำนวนเงิน:</span> <%=content.buffer[index].amount%> บาท</h6>
             <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่โอน:</span> <%=content.buffer[index].time%></h6>
             <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่เงินจะเข้า:</span> <%=content.buffer[index].due%></h6>
         <%} else {%>
-            <h4 class="mb-3  font text-warning text-bg-dark fw-bold py-3 text-center">เงินออก</h4>
-            <h6 class="mt-4-5 mb-3 me-4 ms-5 font"><span class="fw-bold">ถึงบัญชี:</span> <%=content.buffer[index].username%></h6>
+            <h4 class="mb-3 font text-warning little-dark fw-bold py-3 text-center">เงินออก</h4>
+            <h6 class="mt-4-5 mb-3 me-4 ms-5 font border-bottom"><span class="fw-bold">ถึงบัญชี:</span> <%=content.buffer[index].username%></h6>
             <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">จำนวนเงิน:</span> <%=content.buffer[index].amount%> บาท</h6>
             <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่โอน:</span> <%=content.buffer[index].time%></h6>
             <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่เงินจะถึง:</span> <%=content.buffer[index].due%></h6>
         <% } %>
         <div class="d-flex mt-3 mb-5 ms-5">
-            <span class="fw-bold"style="min-width: 80px;">โน้ตช่วยจำ:</span>
+            <span class="fw-bold"style="min-width: 85px;">โน้ตช่วยจำ:</span>
             <div class="border-bottom flex-grow-1 ms-2 me-4"></div>
         </div>
         <% if (content.buffer[index].status === "abort")  { %>

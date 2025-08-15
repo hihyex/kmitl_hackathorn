@@ -15,7 +15,7 @@ footer {
   padding-top: 10px;
   text-align: center;
 }
-.border-bottom {
+.flex-center{
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -172,4 +172,7 @@ footer {
 }
 #buffer-item:active{
   background-color: rgb(182, 178, 178);
+}
+.little-dark{
+  background-color: #394048
 }
