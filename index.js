@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 const mutex = new Mutex();
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.set("view engine", "ejs");
 var account = [{
   id: 1,
@@ -19,6 +20,7 @@ var whiteList = [];
 var lastId = 2;
 var buf = 1;
 var usernameList = ["Admin"];
+var bufId = 0;
 setInterval(async () => {
   const now = Date.now()
   for (var i = 0; i < account.length; i++) {
@@ -54,9 +56,10 @@ app.get("/", (req, res) => {
 });
 app.post("/mainpage", (req, res) => {
   const username = req.body.username;
+  const cfr = (req.body.cfr === "true");
+  const isWhiteList = req.body.whiteList;
   var index = usernameList.findIndex((item) => item === username)
   if (index === -1){
-    const cfr = (lastId % 3 === 1);
     const now = new Date();
     now.setTime(now.getTime() + 10 * 1000);
     const newAccount = {
@@ -67,7 +70,7 @@ app.post("/mainpage", (req, res) => {
       cfr: cfr,
       username: username,
     };
-    if (lastId % 3 === 2){
+    if (isWhiteList === "true"){
       whiteList.push(lastId)
     }
     usernameList.push(username);
@@ -97,7 +100,6 @@ app.get("/buffer/:id", (req, res) => {
 });
 app.get("/scan/:id", async (req, res) => {
   const { id } = req.params;
-  if (account.length > 1) {
     var target = Math.floor(Math.random() * account.length) + 1;
     while (target == id) {
       target = Math.floor(Math.random() * account.length) + 1;
@@ -114,19 +116,12 @@ app.get("/scan/:id", async (req, res) => {
         content: account[id - 1],
         qrCodeImg: qrCode,
         target: account[target - 1].id,
+        usernameList: usernameList,
         id: id,
       });
     } catch (err) {
       console.error(err);
     }
-  } else {
-    res.render("scan.ejs", {
-      message: "ขออภัยตอนนี้มีผู้ใช้คนเดียว",
-      id: id,
-    });
-    console.error("no selected target");
-    return;
-  }
 });
 app.get("/transfer/:id", (req, res) => {
   const { id } = req.params;
@@ -154,6 +149,7 @@ app.get("/success/:id", async (req, res) => {
   const { target } = req.query;
   const { buffer } = req.query;
   const  amount  = Number(req.query.amount);
+  const { forced } = req.query;
   await mutex.runExclusive(async () => {
     if (buffer === "false") {
       account[id - 1].amount -= amount;
@@ -172,9 +168,11 @@ app.get("/success/:id", async (req, res) => {
         username: account[target - 1].username,
         time: new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
         due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
-        dueSec: Date.now() + 20 * 1000,
+        dueSec: Date.now() + 10 * 1000,
         status: "pending",
-        next: next
+        forced: forced,
+        next: next,
+        bufferId: bufId
       });
       buf++;
       account[target - 1].buffer.push({
@@ -184,10 +182,13 @@ app.get("/success/:id", async (req, res) => {
         username: account[target - 1].username,
         time: new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
         due: now.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
-        dueSec: Date.now() + 20 * 1000,
+        dueSec: Date.now() + 10 * 1000,
         status: "pending",
+        forced: forced,
         next: next,
+        bufferId: bufId
       });
+      bufId++;
     }
   })
   res.render("success.ejs", {
@@ -207,7 +208,20 @@ app.get("/buffer/:id/:index", (req, res) =>{
 app.get('/amount/:id', (req, res) =>{
   const { id } = req.params;
   res.json({amount: account[id - 1].amount})
-  console.log("GGG")
+})
+app.patch("/update/:id/:index", async(req, res) => {
+  const { id, index } = req.params;
+  const amount = account[id - 1].buffer[index].amount;
+  const response = req.body;
+  const bufferId = response.bufferId;
+  const targetAccount = account[response.targetId - 1];
+  await mutex.runExclusive(async () => {
+    account[id - 1].buffer[index].status = "success";
+    targetAccount.buffer[bufferId].status = "success";
+    targetAccount.amount += amount;
+    targetAccount.buffer[bufferId].bufferAmount -= amount;
+  });
+  res.json({ success: true });
 })
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

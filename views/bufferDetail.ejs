@@ -16,32 +16,35 @@
 <div>
   <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
       <span class="bank">ศรีกรุง</span>
-      <button type="button" class="btn btn-warning">ประวัติ</button>
   </div>
-  <span class="account-number">เลขบัญชี: <%=locals.id %></span>
+  <span class="account-number">เลขบัญชี: <%=locals.content.username %></span>
 </div>
 </div>
 </header>
 <body data-device-id="<%=locals.id%>">
-  <button class="btn btn-warning px-3 py-2" type="button" style="position: relative; left: 45px; top: 85px;" onclick="bufferPage()">ย้อนกลับ</button>
+  <button class="btn btn-dark text-yellow px-2 py-1 text-14" type="button" id="back" onclick="bufferPage()">ย้อนกลับ</button>
     <div class="d-flex justify-content-center mb-50 mt-4">
     <div class="col-md-7 col-lg-8 mx-5 my-5 mt-3 p-0 bg-body rounded shadow-sm w-50 mb-135">
         <%if (content.buffer[index].type === "in"){%>
-            <h4 class="mb-3 font text-success little-dark py-3 fw-bold text-center">เงินเข้า</h4>
-            <h6 class="mt-4-5 mb-3 me-4 ms-5 font"><span class="fw-bold">จากบัญชี:</span> <%=content.username%></h6>
-            <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">จำนวนเงิน:</span> <%=content.buffer[index].amount%> บาท</h6>
-            <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่โอน:</span> <%=content.buffer[index].time%></h6>
-            <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่เงินจะเข้า:</span> <%=content.buffer[index].due%></h6>
+            <h4 class="mb-3 font text-success little-dark py-3 fw-bold text-center text-18">เงินเข้า</h4>
+            <h6 class="mt-4-5 mb-3 me-4 ms-5 font text-18"><span class="fw-bold">จากบัญชี:</span> <%=content.username%></h6>
+            <h6 class="my-3 me-4 ms-5 font text-18"><span class="fw-bold">จำนวนเงิน:</span> <%=content.buffer[index].amount%> บาท</h6>
+            <h6 class="my-3 me-4 ms-5 font text-18"><span class="fw-bold">วันที่โอน:</span> <%=content.buffer[index].time%></h6>
+            <h6 class="my-3 me-4 ms-5 font text-18"><span class="fw-bold">วันที่เงินจะเข้า:</span> <%=content.buffer[index].due%></h6>
         <%} else {%>
-            <h4 class="mb-3 font text-warning little-dark fw-bold py-3 text-center">เงินออก</h4>
-            <h6 class="mt-4-5 mb-3 me-4 ms-5 font border-bottom"><span class="fw-bold">ถึงบัญชี:</span> <%=content.buffer[index].username%></h6>
-            <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">จำนวนเงิน:</span> <%=content.buffer[index].amount%> บาท</h6>
-            <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่โอน:</span> <%=content.buffer[index].time%></h6>
-            <h6 class="my-3 me-4 ms-5 font"><span class="fw-bold">วันที่เงินจะถึง:</span> <%=content.buffer[index].due%></h6>
+            <h4 class="mb-3 font text-warning little-dark fw-bold py-3 text-center text-18">เงินออก</h4>
+            <h6 class="mt-4-5 mb-3 me-4 ms-5 font border-bottom text-18"><span class="fw-bold">ถึงบัญชี:</span> <%=content.buffer[index].username%></h6>
+            <h6 class="my-3 me-4 ms-5 font text-18"><span class="fw-bold">จำนวนเงิน:</span> <%=content.buffer[index].amount%> บาท</h6>
+            <h6 class="my-3 me-4 ms-5 font text-18"><span class="fw-bold">วันที่โอน:</span> <%=content.buffer[index].time%></h6>
+            <h6 class="my-3 me-4 ms-5 font text-18"><span class="fw-bold">วันที่เงินจะถึง:</span> <%=content.buffer[index].due%></h6>
         <% } %>
-        <div class="d-flex mt-3 mb-5 ms-5">
-            <span class="fw-bold"style="min-width: 85px;">โน้ตช่วยจำ:</span>
+        <div class="d-flex mt-3 mb-3 ms-5">
+            <span class="fw-bold text-18"style="min-width: 85px;">โน้ตช่วยจำ:</span>
             <div class="border-bottom flex-grow-1 ms-2 me-4"></div>
+        </div>
+        <div id="buffer-container" class="ms-5 me-5">
+          <button id="vertify"class="btn btn-dark mt-1 me-2 px-2 font text-14 text-white" hidden>ยืนยันการโอน</button>
+          <button id="abort"class="btn btn-dark mt-1 me-2 px-2 font text-14 text-white" hidden>ยื่นขอเงินคืน</button>
         </div>
         <% if (content.buffer[index].status === "abort")  { %>
             <h6 class="font text-center py-2 mb-0" style="background-color: #ff0000">สถานะ: ล้มเหลว</h6>
@@ -52,6 +55,15 @@
             <% } %>
     </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/script.js" charset="utf-8"></script>
+    <script>
+      if ("<%=content.buffer[index].type%>" === "out" && "<%=content.buffer[index].status%>" === "pending" && !<%=content.buffer[index].forced%>){
+        $("#vertify").attr("hidden", false);
+      }
+      if ("<%=content.buffer[index].type%>" === "out" && "<%=content.buffer[index].status%>" === "pending"){
+        $("#abort").attr("hidden", false);
+      }
+    </script>
   </body>
 </html>

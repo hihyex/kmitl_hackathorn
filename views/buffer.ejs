@@ -43,8 +43,7 @@
                 <div class=" text-16">เงินเข้า</div>
                 <% if (content.buffer[i].status === "pending") {  %>
                   <svg xmlns="http://www.w3.org/2000/svg" 
-                    width="15" 
-                    height="15" 
+                    id="clock"
                     fill="currentColor" 
                     class="bi bi-alarm-fill" 
                     color="#212529"
@@ -53,8 +52,7 @@
                   </svg>
                   <% } else if (content.buffer[i].status === "abort"){%>
                   <svg xmlns="http://www.w3.org/2000/svg" 
-                    width="16" 
-                    height="16" 
+                    id="fail"
                     fill="currentColor" 
                     class="bi bi-x-circle-fill" 
                     color="#E62F07"
@@ -63,8 +61,7 @@
                   </svg>
                   <% } else { %>
                   <svg xmlns="http://www.w3.org/2000/svg" 
-                    width="16" 
-                    height="16" 
+                    id="success"
                     fill="currentColor" 
                     class="bi bi-check-circle-fill" 
                     color="#36E549"
@@ -110,8 +107,8 @@
               <% } %>
             </div>
             <div class="d-flex pb-1 mb-2 item w-100 ">
-              <span class="fullDate"><%=content.buffer[i].time.split(" ")[0]%></span> 
-              <span class="d-block ms-auto text-12"><%=content.buffer[i].time.split(" ")[1].slice(0, 5)%></span>
+              <span class="fullDate text-14"><%=content.buffer[i].time.split(" ")[0]%></span> 
+              <span class="d-block ms-auto text-14"><%=content.buffer[i].time.split(" ")[1].slice(0, 5)%></span>
             </div>
         </div>
         <% } %>

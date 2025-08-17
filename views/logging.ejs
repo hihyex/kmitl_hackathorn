@@ -10,13 +10,14 @@
       crossorigin="anonymous"
     />
     <link href="/styles/content.css" rel="stylesheet" />
-
     <title>ศรีกรุง</title>
   </head>
   <body class="background-dark" data-device-id="<%=locals.id%>">
-    <main class="d-flex justify-content-center align-items-center vh-100">
-      <form action="/mainpage" method="POST">
-        <div class="form-floating my-3">
+    <main class="d-flex justify-content-center align-items-center vh-100 ">
+      <form action="/mainpage" method="POST" class="white px-4 pt-4 pb-5 rounded">
+        <img src="images/icon.png"width="70px" />
+        <div>โปรดเข้าสู่ระบบ</div>
+        <div class="form-floating mb-3 mt-2">
           <input
             class="form-control"
             id="floatingInput"
@@ -27,7 +28,16 @@
           />
           <label for="floatingInput">เลขบัญชี</label>
         </div>
-        <button class="btn btn-warning w-100 py-2" type="submit">เข้าสู่ระบบ</button>
+        <label class="text-12">
+          <input id="cfr" type="checkbox" name="cfr" value="true"/>
+          บัญชีอยู่ใน cfr
+        </label>
+        <br />
+        <label class="text-12">
+          <input id="whiteList" type="checkbox" name="whiteList" value="true"/>
+          บัญชีอยู่ใน white list
+        </label>
+        <button class="btn btn-warning w-100 py-2 mt-3 " type="submit">เข้าสู่ระบบ</button>
       </form>
     </main>
     <script src="/script.js" charset="utf-8"></script>

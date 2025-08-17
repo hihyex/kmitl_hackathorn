@@ -10,32 +10,37 @@
     <link href="/styles/content.css" rel='stylesheet'>
     <title>ศรีกรุง</title>
   </head>
-  <header class="p-3 text-bg-dark">
-          <div class="d-flex align-items-center justify-content-start justify-content-lg-start">
-              <span class="bank">ศรีกรุง</span>
-          </div>
-      </div>
-  </header>
-  <body data-device-id="<%=locals.id%>" data-device-id2="<%=locals.target%>">
+<header class="p-3 text-bg-dark pb-0">
+  <div>
+    <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
+        <span class="bank">ศรีกรุง</span>
+    </div>
+    <span class="account-number">เลขบัญชี: <%=locals.content.username %></span>
+  </div>
+  </div>
+</header>
+  <body data-device-id="<%=locals.id%>">
     <% if (locals.message) { %>
         <script>
             alert("<%=message %>")
             window.location.href = `/mainpage/<%=id%>`;
         </script>
-
     <% } else { %>
         <div class="qr-container">
-            <img src=<%=qrCodeImg%> alt="QR Code" width="360rem"/>
+            <img id="qr-img" src="/images/qrcode.png" alt="QR Code"/>
+            <div>
             <div class="below-qr">qr-code นี้เป็นเพียงรูปภาพประกอบเท่านั้น</div>
+            <select id="myDropdown" class="mt-3">
+                <option value="0" selected disabled>-- เลขบัญชีปลายทาง --</option>
+            </select>
+        </div>
             <div class="d-flex justify-content-between" style="width:100%">
-                <button class="btn btn-dark rounded-pill px-3 m-5" type="button" onclick="mainPage()">
-                    <i class="bi bi-arrow-left-circle-fill "></i>
-                    <span class="text-gray" style="margin-left: 7px; font-size: 0.95em">ย้อนกลับ</span>
-                </button>    
-                <button class="btn btn-dark rounded-pill px-3 m-5" type="button" onclick="transfer('scan')">
-                    <span class="text-yellow" style="margin-left: 7px; font-size: 0.95em">ต่อไป</span>
-                    <i class="bi bi-arrow-right-circle-fill btn-yellow"></i>
-                </button>  
+                <button style="width: 100px"class="btn btn-dark rounded-pill px-3 m-5" type="button" onclick="mainPage()">
+                    <span class="text-gray text-16" style="margin-left: 7px;">ย้อนกลับ</span>
+                </button>
+                <button style="width: 100px"class="btn btn-dark rounded-pill px-3 m-5" type="button" onclick="transfer('scan')">
+                    <span class="text-yellow text-16" style="margin-left: 7px">ต่อไป</span>
+                </button>
             </div>
         </div>
     <% } %>
@@ -46,6 +51,17 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/script.js" charset="utf-8"></script>
+    <script>
+        const dropdown = document.getElementById("myDropdown");
+        var usernameList = <%- JSON.stringify(usernameList) %>;
+        for (var i=0; i<usernameList.length; i++){
+            if (usernameList[i] === "<%=content.username%>") continue;
+            const option = document.createElement("option")
+            option.value = i+1;
+            option.textContent = usernameList[i]
+            dropdown.appendChild(option);
+        }
+    </script>
 </body>
   </body>
 </html>

@@ -27,7 +27,6 @@ footer {
   gap: 10px;
   justify-content: flex-start;
   align-items: center;
-
 }
 .amount-container {
   display: flex;
@@ -140,17 +139,139 @@ footer {
   width: 100%;
   margin-top: 0px;
 }
-.text-12 {
-  font-size: 12px;
+@media (min-width: 576px ){
+  .text-12 {
+    font-size: 12px;
+  }
+  .text-14{
+    font-size: 14px;
+  }
+  .text-16{
+    font-size: 16px;
+  }
+  .text-18{
+    font-size: 18px;
+  }
+  .text-20{
+    font-size: 20px;
+  }
+  #qr-img{
+     width: 20rem;
+  }
+  .below-qr {
+    font-family: IBM Plex Sans Thai;
+    margin-top: 1.5rem;
+  }
+  #menu-container {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  #success, #fail, #clock{
+    width: 16px;
+    height: 16px;
+  }
+  #back{
+    position: relative; 
+    left: 45px; 
+    top: 70px;
+  }
+    #vertify{
+    width: 150px;
+  }
+  #abort{
+    width: 150px
+  }
+  #buffer-container {
+    display: flex;
+    justify-content: flex-start;
+  }
+    #vertify{
+    width: 120px;
+    margin-bottom: 2.5rem;
+  }
+  #abort{
+    width: 120px;
+    margin-bottom: 2.5rem;
+  }
 }
-.text-14{
-  font-size: 14px;
+@media (max-width: 575px){
+   .text-12 {
+    font-size: 8px;
+  }
+  .text-14{
+    font-size: 10px;
+  }
+  .text-16{
+    font-size: 12px;
+  }
+  .text-18{
+    font-size: 14px;
+  }
+  .text-20{
+    font-size: 16px;
+  }
+  #qr-img{
+     width: 10rem;
+  }
+  .below-qr {
+    font-family: IBM Plex Sans Thai;
+    margin-top: 1rem;
+  }
+  #menu-container-container{
+    display: flex;
+    justify-content: center;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  #menu-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+  #transfer{
+    margin-bottom: 0.6rem;
+  }
+  #success, #fail, #clock{
+    width: 12px;
+    height: 12px;
+    margin-left: 0px
+  }
+  #back{
+    position: relative; 
+    left: 30px; 
+    top: 65px;
+  }
+  #buffer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #vertify{
+    width: 120px;
+    margin-bottom: 1.5rem;
+  }
+  #abort{
+    width: 120px;
+    margin-bottom: 2.5rem;
+  }
 }
-.text-16{
-  font-size: 16px;
-}
-.text-20{
-  font-size: 20px;
+@media (max-width: 768px) and (min-width: 576px){
+  #buffer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+    #vertify{
+    width: 120px;
+    margin-bottom: 1.5rem;
+  }
+  #abort{
+    width: 120px;
+    margin-bottom: 2.5rem;
+  }
 }
 .mb-135{
   margin-bottom: 170px;
@@ -175,4 +296,13 @@ footer {
 }
 .little-dark{
   background-color: #394048
+}
+.white{
+  background-color: white;
+}
+.yellow{
+  background-color: #ffc107;
+}
+.text-white{
+  color: white;
 }

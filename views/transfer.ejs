@@ -10,12 +10,15 @@
       <link href="/styles/content.css" rel='stylesheet'>
     <title>ศรีกรุง</title>
 </head>
-  <header class="p-3 text-bg-dark">
-          <div class="d-flex align-items-center justify-content-start justify-content-lg-start">
-              <span class="bank">ศรีกรุง</span>
-          </div>
-      </div>
-  </header>
+<header class="p-3 text-bg-dark pb-0">
+  <div>
+    <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
+        <span class="bank">ศรีกรุง</span>
+    </div>
+    <span class="account-number">เลขบัญชี: <%=locals.content.username %></span>
+  </div>
+  </div>
+</header>
 <body data-device-id="<%=locals.id%>">
     <div class="d-flex justify-content-center ">
         <div class="background transaction-container">
@@ -38,8 +41,10 @@
             <div class="note-frame"><input id="note" placeholder="เติมข้อความที่นี่"/></div><hr class="horizontal"/>
             <div class="form-switch d-flex justify-content-start my-2"style="gap: 60px; padding: 0px">
                 <label class="form-check-label" for="flexSwitchCheck">บัฟเฟอร์</label>
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheck" />
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheck" title="เมื่อเปิดเงินจะเข้าบัญชีปลายทางในอีก 1 วัน" onchange="handleSwitch()"/>
+                <div id="hidden" hidden></div>
             </div>
+            <small class="text-muted text-12">** หมายเหตุ : บัฟเฟอร์คือระบบที่จะช่วยให้เงินไม่ไปยังบัญชีปลายทางในทันที แต่เงินจะพักไว้ที่บัญชีกลางเป็นเวลา 1 วันนับจากตอนโอน เพื่อชะลอการไหลของเงินและอาจสามารถเรียกคืนได้</small>
             <div class="d-flex justify-content-between  mt-5" style="width:100%;">
                 <button class="btn btn-dark rounded-pill px-3" style="font-size: 0.95em; width: 100px" onclick="mainPage()">ยกเลิก</button>
                 <button class="btn btn-dark text-yellow rounded-pill px-3 " type="button" style="width: 100px" onclick="successPage()">โอนเงิน</button>
@@ -54,6 +59,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/script.js" charset="utf-8"></script>
     <script>
+        var t = 0;
         const dropdown = document.getElementById("myDropdown");
         var usernameList = <%- JSON.stringify(usernameList) %>;
         for (var i=0; i<usernameList.length; i++){
@@ -68,12 +74,23 @@
             var state = bufferState(<%=whiteList%>, "<%=process%>", amount, <%=locals.cfr%>);
             if (state === "open"){
                 $("#flexSwitchCheck").prop("checked", true).prop("disabled", true)
+                $("#hidden").text("forced")
             }
             else if (state === "close"){
                 $("#flexSwitchCheck").prop("checked", false).prop("disabled", true)
+                $("#hidden").text("forced")
             }
             else {
                 $("#flexSwitchCheck").prop("disabled", false)
+                $("#hidden").text("depend")
+            }
+        }
+        function handleSwitch() {
+            console.log(!$("#flexSwitchCheck").prop("checked"))
+            if (t === 0 && $("#flexSwitchCheck").prop("checked")) {
+                if (confirm("คุณได้เปิด Buffer เงินจะเข้าบัญชีปลายทางในอีก 1 วัน")){
+                    t = 1;
+                }
             }
         }
     </script>
